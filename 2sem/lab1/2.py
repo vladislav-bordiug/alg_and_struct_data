@@ -1,53 +1,69 @@
 import hashlib
+def prefix(string):
+    pre_len = len(string)
+    prefixes = [0] * pre_len
+
+    for i in range(pre_len):
+        substr = string[:i + 1]
+        count = 0
+        for j in range(len(substr)):
+            if substr[:j] == substr[-j:]:
+                count = j
+        prefixes[i] = count
+    return prefixes
+
+
+def knut_morris_pratt(pattern, string):
+    pattern_prefixes = prefix(pattern)
+    counter = 0
+    string_len = len(string)
+    pattern_len = len(pattern)
+    i = 0
+    j = 0
+    while i < string_len:
+        if string[i] == pattern[j]:
+            i += 1
+            j += 1
+            if j == pattern_len:
+                counter += 1
+                j = pattern_prefixes[j - 1]
+        else:
+            if j == 0:
+                i += 1
+            else:
+                j = pattern_prefixes[j - 1]
+    return counter
+
+
 ref = open('Корпоративные ценности.txt', 'r', encoding="utf8")
 Wiki = open('Wiki.txt', 'r', encoding="utf8")
 
 ref_str = []
 for string in ref:
-    ref_str.append(string[:-2])
+    ref_str.append(string[:-2]) #Добавляем строки из реферата в список
 
 Wiki_str = []
 for string in Wiki:
-    Wiki_str.append(string[:-2])
+    Wiki_str.append(string[:-2])      #Добавляем строки из статьи вики в список
 
-ref_one_string = ' '.join(ref_str)
+ref_one_string = ' '.join(ref_str)     #Объединяем все строки в одну большую строку
 Wiki_one_string = ' '.join(Wiki_str)
 
 for i in '.,-!;:?()«»—–"[]':
-    ref_one_string = ref_one_string.replace(f'{i}','')
+    ref_one_string = ref_one_string.replace(f'{i}','') #Убираем все ненужные символы из строки, оставляем слова
     Wiki_one_string = Wiki_one_string.replace(f'{i}','')
 
-ref_words = ref_one_string.split(' ')
+ref_words = ref_one_string.split(' ')    #Разбиваем по пробелу - составляем список слов
 ref.close()
-Wiki_words = Wiki_one_string.split(' ')
 Wiki.close()
 
-ref_three = []
-ref_hash = []
-three_words = ''
+ref_len = len(ref_one_string)
+plagiat_syms = 0
 
-for i in range(len(ref_words) - 2):
-    three_words = ref_words[i] + ' ' + ref_words[i+1] + ' ' + ref_words[i+2]
-    ref_three.append(three_words)
-    cur_hash = hashlib.md5(three_words.encode())
-    ref_hash.append(cur_hash.hexdigest())
+for rl in range(len(ref_words) - 2):
+    search_str = " ".join(ref_words[rl: rl + 3])    #Составляем 3 слова
+    count_found = knut_morris_pratt(search_str, Wiki_one_string)    #Применяем поиск КНП
+    plagiat_syms += len(search_str) * count_found   #Считаем кол-во найденных символов
 
-Wiki_three = []
-Wiki_hash = []
-for i in range(len(Wiki_words) - 2):
-    three_words = Wiki_words[i] + ' ' + Wiki_words[i+1] + ' ' + Wiki_words[i+2]
-    Wiki_three.append(three_words)
-    cur_hash = hashlib.md5(three_words.encode())
-    Wiki_hash.append(cur_hash.hexdigest())
-
-counter = 0
-for i in range(len(Wiki_hash)):
-    for j in range(len(ref_hash)):
-        if Wiki_hash[i] == ref_hash[j]:
-            if Wiki_three[i] == ref_three[j]:
-                counter += 1
-                print(Wiki_three[i])
-        else:
-            continue
-
-print((counter / len(ref_words)*100))
+plagiat = plagiat_syms / ref_len
+print(plagiat * 100)
