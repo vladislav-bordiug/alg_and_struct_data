@@ -1,0 +1,48 @@
+# Задача:
+# Ты в многоквартирном доме на 1-ом этаже, у тебя закончилась соль, но готовить
+# борщ надо. Ты знаешь соседей только на 2-ом этаже, поэтому идешь к ним просить
+# соли, сосед говорит тебе: "Слушай, у меня тоже закончилась, но я знаю что на
+# этаже выше живут такие-то люди, можешь спросить у них. Итак, твоя задача найти
+# соль у своих соседей, при этом как можно меньше поднимаясь по лестнице, так как
+# ты уже не молод и твои суставы болят. Найди человека, у которого есть соль.
+# Узнай на каком этаже живет этот человек.
+
+graph = {}
+graph['you'] = ['Alexander', 'Danil', 'Elena']
+graph['Danil'] = ['Yana', 'Grigory']
+graph['Alexander'] = ['Grigory']
+graph['Elena'] = ['Alexey', 'Juliana']
+graph['Yana'] = []
+graph['Grigory'] = []
+graph['Alexey'] = []
+graph['Juliana'] = []
+
+persons_have_salt = ['Grigory', 'Elena']
+
+from collections import deque
+
+floor1 = 1
+search_queue = deque()
+search_queue += graph['you']
+searched = []
+
+
+def search(queue, floor):
+    floor += 1
+    new_queue = deque()
+    while queue:
+        person = queue.popleft()
+        if not person in searched:
+            if person in persons_have_salt:
+                print(person, floor)
+                return True
+            else:
+                new_queue += graph[person]
+                searched.append(person)
+    if new_queue:
+        return search(new_queue, floor)
+    else:
+        return False
+
+
+search(search_queue, floor1)
