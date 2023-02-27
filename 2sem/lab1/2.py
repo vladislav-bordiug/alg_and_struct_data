@@ -65,4 +65,4 @@ for rl in range(len(ref_words) - 2):
     plagiat_syms += len(search_str) * count_found   #Считаем кол-во найденных символов
 
 plagiat = plagiat_syms / ref_len
-print(plagiat * 100)
+print('В файле',round(plagiat * 100,2),'% плагиата')
