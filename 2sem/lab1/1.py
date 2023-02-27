@@ -6,7 +6,6 @@ def prostota(n):        #Функция для проверки простоты
             return False
     return True
 
-
 def naive(pattern, string):
     pattern_len = len(pattern)
     string_len = len(string)
@@ -40,7 +39,6 @@ def prefix(string):
 def boyerMoore(pattern, string):
     pattern_len = len(pattern)
     string_len = len(string)
-
     offset = 0
     found_count = 0
     l = 0
@@ -129,8 +127,11 @@ while k != 500:
     i += 1
 
 simple_string = ''.join(simple)
-
-print(find(naive))
-print(find(boyerMoore))
-print(find(rabin_karp))
-print(find(knut_morris_pratt))
+a = find(naive)
+print(a[1],': время выполнения =', a[0],'Наиболее встречающиеся двузначные числа встречаются в файле',a[2],'раза и',a[3],'раз')
+a = find(boyerMoore)
+print(a[1],': время выполнения =', a[0],'Наиболее встречающиеся двузначные числа встречаются в файле',a[2],'раза и',a[3],'раз')
+a = find(rabin_karp)
+print(a[1],': время выполнения =', a[0],'Наиболее встречающиеся двузначные числа встречаются в файле',a[2],'раза и',a[3],'раз')
+a = find(knut_morris_pratt)
+print(a[1],': время выполнения =', a[0],'Наиболее встречающиеся двузначные числа встречаются в файле',a[2],'раза и',a[3],'раз')
