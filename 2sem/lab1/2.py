@@ -1,4 +1,3 @@
-import hashlib
 def prefix(string):
     pre_len = len(string)
     prefixes = [0] * pre_len
