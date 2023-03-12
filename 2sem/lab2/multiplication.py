@@ -1,6 +1,6 @@
 from random import randint,uniform
 #функция, которая превращает строковый ключ в число с помощью функции ord
-def int_to_str(str):
+def str_to_int(str):
     s = 0
     for i in range(len(str)):
         s += ord(str[i])
@@ -11,10 +11,10 @@ def hash(M,mas,C):
     for i in mas:
         #если передали целое число, то оставляем его
         #если передали строку, то преобразуем ее в число
-        if isinstance(i,int):
+        if i.isdigit():
             K = int(i)
         else:
-            K = int_to_str(i)
+            K = str_to_int(i)
         #индекс элемента в хэш-таблице вычисляем по выражению M*((K*C)mod1)
         index = int(M*((K*C)%1))
         #добавляем в словарь
