@@ -1,4 +1,4 @@
-from random import randint,uniform
+from random import uniform
 #функция, которая превращает строковый ключ в число с помощью функции ord
 def str_to_int(str):
     s = 0
