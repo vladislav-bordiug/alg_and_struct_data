@@ -1,15 +1,27 @@
 from random import randint,uniform
+#функция, которая превращает строковый ключ в число с помощью функции ord
+def int_to_str(str):
+    s = 0
+    for i in range(len(str)):
+        s += ord(str[i])
+    return s
 #функция хэширования, которая создает словарь типа ключ: индекс
 def hash(M,mas,C):
     h = {}
     for i in mas:
+        #если передали целое число, то оставляем его
+        #если передали строку, то преобразуем ее в число
+        if isinstance(i,int):
+            K = i
+        else:
+            K = int_to_str(i)
         #индекс элемента в хэш-таблице вычисляем по выражению M*((K*C)mod1)
-        index = int(M*((i*C)%1))
+        index = int(M*((K*C)%1))
         #добавляем в словарь
         h[i] = index
     return h
 M = int(input('Введите длину массива\n'))
-mas = list(map(int,input('Введите ключ(и) через пробел\n').split()))
+mas = input('Введите ключ(и) через пробел\n').split()
 #генерируется рандомное C в интервале от 0 до 1
 C = uniform(0,1)
 print('C:',C)
