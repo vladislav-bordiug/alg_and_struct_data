@@ -1,5 +1,3 @@
-import zlib
-
 def crc32(data):    #Передаем в нашу функцию байтовую строку
     crc = 0xFFFFFFFF    #Изначальное значение CRC32
     polynomial = 0xEDB88320     #Реверсированный многочлен
