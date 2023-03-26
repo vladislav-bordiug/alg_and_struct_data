@@ -16,7 +16,6 @@ print('Стоимости и массы экспонатов, находящих
 
 things.sort(key=lambda x:x[0])
 things.reverse()    # Упорядочиваем  товары по убыванию стоимости
-print(things)
 stolen_things = []   # Создаем список украденых
 for i in range(m):   # Делаем несколько заходов в наш музей
     cur_k = k
